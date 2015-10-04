@@ -7,6 +7,7 @@
     <title>Simple CRUD with AngularJS</title>
     
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -16,30 +17,78 @@
     <![endif]-->
   </head>
   <body ng-app="simpleCrud" ng-controller="crudCtrl">
-    <h1>Hello, world!</h1>
-    
+   <header>
+    <h1>Simple CRUD application with AngularJS</h1>
+   </header>
+    <article>
 <!-- Place tabel into a panel-->
-    <div class="panel panel-default">
-      <div class="panel-heading">Some table</div>
-      <div class="panel-body">
-        <table class="table">
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-          </tr>
-          <!-- Iterate through an array with filtring data -->
-          <tr ng-repeat="user in users | orderBy: 'id'">
-            <td>{{user.id}}</td>
-            <td>{{user.name}}</td>
-            <td>{{user.email | lowercase}}</td>
-          </tr>
-        </table>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="btn-group" role="group" area-label="Edit item buttons">
+            <button type="button" class="btn btn-default" data-toggle="modal" 
+              data-target="#edit" ng-click="new()">Add</button>
+            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#edit">Edit</button>
+            <button type="button" class="btn btn-default">Delete</button>
+          </div>
+          Table <strong>Users</strong>
+        </div>
+        <div class="panel-body">
+<!--  Users Table -->
+          <table class="table">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+            </tr>
+<!-- Iterate through an array with filtring data -->
+            <tr ng-repeat="user in users | orderBy: 'id'">
+              <td>{{user.id}}</td>
+              <td>{{user.name}}</td>
+              <td>{{user.email | lowercase}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </article>
+    
+    
+<!-- Modal (User edit dialog) -->
+    <div id="edit" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Record Edit</h4>
+          </div>
+          
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" placeholder="User Name" ng-model="user.name">
+              </div>
+              <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" placeholder="User Email" ng-model="user.email">
+              </div>
+            </form>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="create()">
+                Save
+              </button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
+   
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+<!-- Angular starts execution after DOM is loaded so it doesn't have to be in the end of page   -->
     <script src="js/angular.js"></script>
     <script src="app/simple-crud.js"></script>
   </body>
