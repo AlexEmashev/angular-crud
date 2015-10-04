@@ -26,12 +26,13 @@
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Age</th>
+            <th>Email</th>
           </tr>
-          <tr ng-repeat="person in persons">
-            <td>{{person.id}}</td>
-            <td>{{person.name}}</td>
-            <td>{{person.age}}</td>
+          <!-- Iterate through an array with filtring data -->
+          <tr ng-repeat="user in users | orderBy: 'id'">
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email | lowercase}}</td>
           </tr>
         </table>
       </div>
