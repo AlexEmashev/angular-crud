@@ -36,6 +36,7 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   $scope.new = function () {
     console.log("ShowModal");
     // ToDo: Perform 'new' request.
+    // Remark: used fake RESTful service doesn't implement '/new' action
     var newUserId = $scope.users.count;
     $scope.user = {
       id: newUserId,
@@ -45,10 +46,26 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   };
 
   // Method for editing a user
-  $scope.edit = function (id) {
+  $scope.edit = function () {
     //    var newUserId =  $scope.users.count;
     //    $scope.user = {id: newUserId, name: "", email: ""};
   };
+  
+  $scope.destroy = function () {
+    if ($scope.selectedId)
+      {
+        $http.delete("http://jsonplaceholder.typicode.com/users/" + $scope.selectedId)
+        .success(function (response) {
+          console.log($scope.selectedId);
+          // ToDo: Doesn't work correctly
+          $scope.users.splice($scope.selectedId - 1, 1);
+          //$scope.users.push(response);
+        })
+        .error(function (response) {
+          console.log("error " + response);
+        });
+      }
+  }
 
 });
 
