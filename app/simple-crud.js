@@ -7,11 +7,16 @@ app.controller('crudCtrl', function($scope, $http){
   $http.get("http://jsonplaceholder.typicode.com/users")
     .success(function(resoponse) { $scope.users = resoponse; })
     .error(function(response) { console.log("Request error: %s", response); });
+  
+  // Set selected row in table
+  $scope.selectRow = function(id){
+    $scope.selectedId = id;
+  }
     
   // Method create new record
   $scope.create = function(){
     $http.post("http://jsonplaceholder.typicode.com/users", $scope.user)
-      .success(function(response) { 
+      .success(function(response) {
         console.log(response);
         $scope.users.push(response); 
       })
@@ -23,4 +28,12 @@ app.controller('crudCtrl', function($scope, $http){
     var newUserId =  $scope.users.count;
     $scope.user = {id: newUserId, name: "", email: ""};
   };
+  
+  // Method for editing a user
+  $scope.edit = function(id){
+//    var newUserId =  $scope.users.count;
+//    $scope.user = {id: newUserId, name: "", email: ""};
+  };
+  
+  
 });
