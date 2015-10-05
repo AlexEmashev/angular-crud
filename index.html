@@ -23,10 +23,9 @@
     <article>
 <!-- Place tabel into a panel-->
       <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" ng-controller="modalCtrl">
           <div class="btn-group" role="group" area-label="Edit item buttons">
-            <button type="button" class="btn btn-default" data-toggle="modal" 
-              data-target="#edit" ng-click="new()">Add</button>
+            <button type="button" class="btn btn-default" ng-click="showModal()">Add</button>
             <button type="button" class="btn btn-default" data-toggle="modal" 
             data-target="#edit" ng-click="edit()">Edit</button>
             <button type="button" class="btn btn-default">Delete</button>
@@ -57,46 +56,13 @@
         </div>
       </div>
     </article>
-    
-    
-<!-- Modal (User edit dialog) -->
-    <div id="edit" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Record Edit</h4>
-          </div>
-          
-          <div class="modal-body">
-            <form role="form">
-              <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" class="form-control" placeholder="User Name" ng-model="user.name">
-              </div>
-              <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" placeholder="User Email" ng-model="user.email">
-              </div>
-            </form>
-            
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="create()">
-                Save
-              </button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
-   
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+
 <!-- Angular starts execution after DOM is loaded so it doesn't have to be in the end of page   -->
     <script src="js/angular.js"></script>
+    <script src="js/angular-animate.js"></script>
+<!-- Bootstrap with directives for AngularJS, no need to use bootstrap.js or jQuery -->
+    <script src="js/ui-bootstrap-tpls-0.13.4.js"></script>
     <script src="app/simple-crud.js"></script>
   </body>
 </html>
