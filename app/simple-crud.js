@@ -35,7 +35,6 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   
   // Method for creating a new user
   $scope.new = function () {
-    // ToDo: Perform 'new' request.
     // Remark: used fake RESTful service doesn't implement '/new' action
     var newUserId = $scope.users.count;
     $scope.user = {
@@ -43,7 +42,6 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
       name: "",
       email: ""
     };
-    console.dir($scope); 
   };
 
   // Method create new record
@@ -65,7 +63,6 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
     if ($scope.selectedId) {
       $http.get("http://jsonplaceholder.typicode.com/users/" + $scope.selectedId)
         .success(function (response) {
-          console.log(response);
           // Hack: Update actually doesn't update data on the server. 
           // If user tries to edit row that he edit perviously he get an original values
           // That's why response doesn't used here.
@@ -123,13 +120,13 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
 // Modal window controller. 
 // Setups and shows modal window.
 app.controller('modalCtrl', function ($scope, $modal) {
-  console.log($scope);
   $scope.showModal = function (createMode) {
     if(createMode){
       $scope.new();
     } else {
       $scope.show();
     }
+    
     // Using $modal service to instantiate a modal window
     // It has single method "open()" to create and setup a modal
     var modalInstance = $modal.open({
@@ -148,7 +145,7 @@ app.controller('modalCtrl', function ($scope, $modal) {
 
     // Actions after modal dismissed
     modalInstance.result.then(function (selectedItem) {
-      console.log("Modal dismissed at: " + new Date());
+      //console.log("Modal dismissed at: " + new Date());
     });
   }
 });

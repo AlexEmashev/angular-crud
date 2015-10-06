@@ -25,8 +25,9 @@ This is a very early stage. So there are plenty things to do.
 - [x] List remote data in table
 - [x] Write CRUD operations code
 - [x] Add a modal for creating/updating of an item
+- [ ] Error handling
 - [ ] Add form validation
 - [ ] Split controllers to separate files
-- [ ] Make a provider for actual service REST adressess
+- [ ] Make a provider for service REST URLs
 - [ ] Refactor code
 - [ ] Replace new method implementation with actual ajax call
