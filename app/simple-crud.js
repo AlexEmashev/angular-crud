@@ -62,12 +62,18 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   
   // Return specific record to display or edit
   $scope.show = function () {
-    
     if ($scope.selectedId) {
       $http.get("http://jsonplaceholder.typicode.com/users/" + $scope.selectedId)
         .success(function (response) {
           console.log(response);
-          $scope.user = response;
+          // Hack: Update actually doesn't update data on the server. 
+          // If user tries to edit row that he edit perviously he get an original values
+          // That's why response doesn't used here.
+          $scope.users.forEach(function (element, index, array){
+            if (element.id == $scope.selectedId){
+                $scope.user = element;
+              }
+          });
         })
         .error(function (response) {
           console.log("error " + response);
@@ -77,8 +83,20 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
 
   // Method for editing a user
   $scope.update = function () {
-    //    var newUserId =  $scope.users.count;
-    //    $scope.user = {id: newUserId, name: "", email: ""};
+    $http.put("http://jsonplaceholder.typicode.com/users/" + $scope.user.id)
+    .success(function (response) {
+      // Our fake RESTful service doesn't return updated string, but original
+      // So we just simulate successful update. 
+      $scope.users.forEach(function (element, index, array){
+        if (element.id == $scope.user.id){
+          array[index] = $scope.user;
+        }
+      });
+    })
+    .error(function (response) {
+      console.log("error " + response);
+    });
+
   };
   
   // Method for destroying a user record
@@ -146,7 +164,11 @@ app.controller('modalInstanceCtrl', function ($scope, $modalInstance) {
   };
 
   $scope.modalSubmit = function () {
-    $scope.create();
+    if($scope.user.id){
+      $scope.update();
+    } else {
+      $scope.create();
+    }
     $modalInstance.close();
   }
 });
