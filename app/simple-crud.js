@@ -52,21 +52,22 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   };
   
   $scope.destroy = function () {
-    if ($scope.selectedId)
-      {
+    if ($scope.selectedId){
         $http.delete("http://jsonplaceholder.typicode.com/users/" + $scope.selectedId)
         .success(function (response) {
-          console.log($scope.selectedId);
-          // ToDo: Doesn't work correctly
-          $scope.users.splice($scope.selectedId - 1, 1);
-          //$scope.users.push(response);
+          // Remove deleted item from array
+          for (var i = 0; i < $scope.users.length; i++){    
+            if ($scope.users[i].id == $scope.selectedId){
+              $scope.users.splice(i, 1);
+              break;
+            }
+          }
         })
         .error(function (response) {
           console.log("error " + response);
         });
       }
   }
-
 });
 
 
