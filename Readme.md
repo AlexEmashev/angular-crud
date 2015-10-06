@@ -23,6 +23,8 @@ The app itself pursuit educational goals. It should show some basic AngularJS as
 This is a very early stage. So there are plenty things to do.
 
 - [x] List remote data in table
-- [ ] Write CRUD operations code
+- [x] Write CRUD operations code
+- [ ] Split controllers to separate files
+- [ ] Make a provider for actual service REST adressess
 - [ ] Add a modal for creating/updating of an item
 - [ ] Replace new method implementation with actual ajax call 

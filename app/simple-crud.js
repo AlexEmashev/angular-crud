@@ -35,7 +35,6 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   
   // Method for creating a new user
   $scope.new = function () {
-    console.log("ShowModal");
     // ToDo: Perform 'new' request.
     // Remark: used fake RESTful service doesn't implement '/new' action
     var newUserId = $scope.users.count;
@@ -44,6 +43,7 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
       name: "",
       email: ""
     };
+    console.dir($scope); 
   };
 
   // Method create new record
@@ -59,9 +59,24 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
         console.log("error " + response);
       });
   };
+  
+  // Return specific record to display or edit
+  $scope.show = function () {
+    
+    if ($scope.selectedId) {
+      $http.get("http://jsonplaceholder.typicode.com/users/" + $scope.selectedId)
+        .success(function (response) {
+          console.log(response);
+          $scope.user = response;
+        })
+        .error(function (response) {
+          console.log("error " + response);
+        });
+    }
+  }
 
   // Method for editing a user
-  $scope.edit = function () {
+  $scope.update = function () {
     //    var newUserId =  $scope.users.count;
     //    $scope.user = {id: newUserId, name: "", email: ""};
   };
@@ -90,10 +105,13 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
 // Modal window controller. 
 // Setups and shows modal window.
 app.controller('modalCtrl', function ($scope, $modal) {
-
-  $scope.showModal = function () {
-    $scope.new();
-
+  console.log($scope);
+  $scope.showModal = function (createMode) {
+    if(createMode){
+      $scope.new();
+    } else {
+      $scope.show();
+    }
     // Using $modal service to instantiate a modal window
     // It has single method "open()" to create and setup a modal
     var modalInstance = $modal.open({
