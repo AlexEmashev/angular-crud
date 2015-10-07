@@ -108,6 +108,7 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
               break;
             }
           }
+          $scope.selectedId = undefined;
         })
         .error(function (response) {
           console.log("error " + response);

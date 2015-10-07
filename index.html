@@ -26,8 +26,10 @@
         <div class="panel-heading" ng-controller="modalCtrl">
           <div class="btn-group" role="group" area-label="Edit item buttons">
             <button type="button" class="btn btn-default" ng-click="showModal(true)">Add</button>
-            <button type="button" class="btn btn-default" ng-click="selectedId ? showModal(false) : null">Edit</button>
-            <button type="button" class="btn btn-default" ng-click="selectedId ? destroy() : null">Delete</button>
+            <button type="button" class="btn btn-default" ng-disabled="!selectedId"
+            ng-click="selectedId ? showModal(false) : null">Edit</button>
+            <button type="button" class="btn btn-default" 
+            ng-click="selectedId ? destroy() : null" ng-disabled="!selectedId">Delete</button>
           </div>
           Table <strong>Users</strong>
         </div>
