@@ -19,7 +19,7 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
     return ++newId;
   }
   
-  // Test of reading data from remote service
+  // Read list of users from remote service
   $http.get("http://jsonplaceholder.typicode.com/users")
     .success(function (resoponse) {
       $scope.users = resoponse;
@@ -30,6 +30,8 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   
   // Method for creating a new user
   $scope.new = function () {
+    // userDataAcquired used to determine that data on modal is ready to be shown and form can be edited
+    $scope.userDataAcquired = false;
     // Remark: used fake RESTful service doesn't implement '/new' action
     var newUserId = $scope.users.count;
     $scope.user = {
@@ -37,6 +39,7 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
       name: "",
       email: ""
     };
+    $scope.userDataAcquired = true;
   };
 
   // Method create new record
@@ -56,6 +59,7 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   // Return specific record to display or edit
   $scope.show = function () {
     if ($scope.selectedId) {
+      $scope.userDataAcquired = false;
       $http.get("http://jsonplaceholder.typicode.com/users/" + $scope.selectedId)
         .success(function (response) {
           // Hack: Update actually doesn't update data on the server. 
@@ -64,6 +68,7 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
           $scope.users.forEach(function (element, index, array){
             if (element.id == $scope.selectedId){
                 $scope.user = element;
+                $scope.userDataAcquired = true;
               }
           });
         })

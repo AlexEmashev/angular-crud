@@ -3,8 +3,10 @@
 app.controller('modalCtrl', function ($scope, $modal) {
   $scope.showModal = function (createMode) {
     if(createMode){
+      $scope.modalCreateMode = true;
       $scope.new();
     } else {
+      $scope.modalCreateMode = false;
       $scope.show();
     }
     
@@ -17,6 +19,7 @@ app.controller('modalCtrl', function ($scope, $modal) {
       // Pass current scope to modal window, to access to CRUD operations 
       // definded in scope
       scope: $scope,
+      keyboard: false,
       // Modal content
       templateUrl: 'app/modal.html',
       // Controller to controll window behavior
@@ -39,6 +42,7 @@ app.controller('modalInstanceCtrl', function ($scope, $modalInstance) {
   // Close modal window
   $scope.modalClose = function () {
     $modalInstance.close();
+    $scope.user = {};
   };
 
   $scope.modalSubmit = function () {
@@ -46,11 +50,13 @@ app.controller('modalInstanceCtrl', function ($scope, $modalInstance) {
     $scope.$broadcast('show-errors-check-validity');
     
     if($scope.recordEdit.$valid && $scope.recordEdit.$dirty) {
-      if($scope.user.id){
+      if($scope.modalCreateMode){
         $scope.update();
       } else {
         $scope.create();
       }
+      
+      $scope.user = {};
       $modalInstance.close();
     }
   }
