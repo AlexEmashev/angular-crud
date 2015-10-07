@@ -1,10 +1,4 @@
-// Create an angular app module with name 'simpleCrud'
-// Using bootstrap component to organize the UI
-// ngAnimate - used by bootsrap for modal fade-in\fade-out effects
-// bootstrap.showErrors - is a custom directive for form validation
-var app = angular.module('simpleCrud', ['ui.bootstrap', 'ngAnimate', 'ui.bootstrap.showErrors']);
-
-// Create controller 'crudCtrl' to manage the data on the page
+// Controller, that performs CRUD operations
 app.controller('crudCtrl', function ($scope, $http, $modal) {
 
   // Set selected row in table
@@ -114,64 +108,5 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
           console.log("error " + response);
         });
       }
-  }
-});
-
-
-// Modal window controller. 
-// Setups and shows modal window.
-app.controller('modalCtrl', function ($scope, $modal) {
-  $scope.showModal = function (createMode) {
-    if(createMode){
-      $scope.new();
-    } else {
-      $scope.show();
-    }
-    
-    // Using $modal service to instantiate a modal window
-    // It has single method "open()" to create and setup a modal
-    var modalInstance = $modal.open({
-      animation: true,
-      // Can be true, false and 'static' latter don't let close the window by clicking outside
-      backdrop: 'static',
-      // Pass current scope to modal window, to access to CRUD operations 
-      // definded in scope
-      scope: $scope,
-      // Modal content
-      templateUrl: 'modal.html',
-      // Controller to controll window behavior
-      controller: 'modalInstanceCtrl',
-      resolve: {}
-    });
-
-    // Actions after modal dismissed
-    modalInstance.result.then(function (selectedItem) {
-      //console.log("Modal dismissed at: " + new Date());
-    });
-  }
-});
-
-
-// Controller of modal instance.
-// Links data and manages dialog actions like close window.
-// $modalInstance - scope of current window with additional methods.
-app.controller('modalInstanceCtrl', function ($scope, $modalInstance) {
-  // Close modal window
-  $scope.modalClose = function () {
-    $modalInstance.close();
-  };
-
-  $scope.modalSubmit = function () {
-    // 'show-errors-check-validity' - from plugin bootstrap.showErrors
-    $scope.$broadcast('show-errors-check-validity');
-    
-    if($scope.recordEdit.$valid && $scope.recordEdit.$dirty) {
-      if($scope.user.id){
-        $scope.update();
-      } else {
-        $scope.create();
-      }
-      $modalInstance.close();
-    }
   }
 });
