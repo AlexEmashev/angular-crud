@@ -15,3 +15,12 @@ article{
 .selected-row{
   background-color: #e9f3f5;
 }
+
+/* Display error bolock if there are any errors */
+.form-group .help-block {
+  display: none;
+}
+
+.form-group.has-error .help-block {
+  display: block;
+}

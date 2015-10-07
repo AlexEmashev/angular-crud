@@ -1,7 +1,8 @@
 // Create an angular app module with name 'simpleCrud'
 // Using bootstrap component to organize the UI
 // ngAnimate - used by bootsrap for modal fade-in\fade-out effects
-var app = angular.module('simpleCrud', ['ui.bootstrap', 'ngAnimate']);
+// bootstrap.showErrors - is a custom directive for form validation
+var app = angular.module('simpleCrud', ['ui.bootstrap', 'ngAnimate', 'ui.bootstrap.showErrors']);
 
 // Create controller 'crudCtrl' to manage the data on the page
 app.controller('crudCtrl', function ($scope, $http, $modal) {
@@ -161,11 +162,16 @@ app.controller('modalInstanceCtrl', function ($scope, $modalInstance) {
   };
 
   $scope.modalSubmit = function () {
-    if($scope.user.id){
-      $scope.update();
-    } else {
-      $scope.create();
+    // 'show-errors-check-validity' - from plugin bootstrap.showErrors
+    $scope.$broadcast('show-errors-check-validity');
+    
+    if($scope.recordEdit.$valid && $scope.recordEdit.$dirty) {
+      if($scope.user.id){
+        $scope.update();
+      } else {
+        $scope.create();
+      }
+      $modalInstance.close();
     }
-    $modalInstance.close();
   }
 });
