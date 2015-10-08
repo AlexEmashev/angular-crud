@@ -24,22 +24,21 @@
       <p class="help-block" ng-if="recordEdit.email.$error.required">Email is required</p> 
       <p class="help-block" ng-if="recordEdit.email.$error.email">Enter valid email</p> 
     </div>    
-    <div class="form-group" show-errors>
+    <div class="form-group">
       <label>City:</label>
 <!-- Using UI Select module -->
 <!-- UI Select requires selected item to be a property -->
-      <ui-select ng-model="person.selected" theme="bootstrap">
+      <ui-select name="city" ng-model="user.address.city" theme="bootstrap">
 <!-- Element that shows selection -->
-        <ui-select-match placeholder="City name">{{$select.selected.name}}</ui-select-match>
+        <ui-select-match placeholder="City name">{{$select.selected.address_components[0].long_name}}</ui-select-match>
 <!-- $search is var given by UI Select -->
 <!-- Here we list choices with filter -->
-        <ui-select-choices repeat="person in persons | filter: $select.search">
-          {{person.name}} ({{person.email}})
+        <ui-select-choices repeat="city in cities | filter: $select.search track by $index"
+         refresh="getCityNames($select.search)" refresh-delay="0">
+         <div ng-bind-html="city.formatted_address | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>
-      
-      <p class="help-block" ng-if="recordEdit.email.$error.required">Email is required</p> 
-      <p class="help-block" ng-if="recordEdit.email.$error.email">Enter valid email</p> 
+
     </div>
   </div>
     </fieldset>

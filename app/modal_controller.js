@@ -30,6 +30,7 @@ app.controller('modalCtrl', function ($scope, $modal) {
     // Actions after modal dismissed
     modalInstance.result.then(function (selectedItem) {
       //console.log("Modal dismissed at: " + new Date());
+      console.log($scope.user);
     });
   }
 });

@@ -1,15 +1,23 @@
 // Controller, that performs CRUD operations
 app.controller('crudCtrl', function ($scope, $http, $modal) {
-  //////////////// Select 2 Draft ////////////////
-  $scope.person = {};
-  $scope.persons = [
-    { name: 'John Doe', email: 'john@doe.com'},
-    { name: 'Lola Bunny', email: 'lola@bunny.com'},
-    { name: 'James Joe', email: 'james@joe.com'},
-    { name: 'Olga Shmidth', email: 'olga@shmidth.com'},
-  ];
   
-  
+  // UI Select control
+  $scope.selectedCity = {};
+  $scope.cities = [];
+  $scope.getCityNames = function(cityName){
+    if(!cityName){
+      return;
+    }
+      
+    var params = {address: cityName, sensor: false};
+    return $http.get(
+      'http://maps.googleapis.com/maps/api/geocode/json',
+      {params: params}
+    ).then(function (response) {
+      console.log(response);
+      $scope.cities = response.data.results;
+    });
+  }
   
   // Set selected row in table
   $scope.selectRow = function (id) {
@@ -32,6 +40,7 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   // Read list of users from remote service
   $http.get("http://jsonplaceholder.typicode.com/users")
     .success(function (resoponse) {
+      console.log(resoponse);
       $scope.users = resoponse;
     })
     .error(function (response) {
@@ -47,7 +56,8 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
     $scope.user = {
       id: undefined,
       name: "",
-      email: ""
+      email: "",
+      address: {city: ""}
     };
     $scope.userDataAcquired = true;
   };
