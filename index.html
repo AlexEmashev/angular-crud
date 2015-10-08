@@ -7,6 +7,7 @@
     <title>Simple CRUD with AngularJS</title>
     
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/select.min.css">
     <link href="css/style.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -61,8 +62,12 @@
 
 <!-- Angular starts execution after DOM is loaded so it doesn't have to be in the end of page   -->
     <script src="js/angular.js"></script>
+<!-- Module for sanitizing HTML to protect from malicious code injection (XSS) -->
+    <script src="js/angular-sanitize.js"></script>
     <script src="js/showErrors.js"></script>
     <script src="js/angular-animate.js"></script>
+<!-- Select directivws -->
+    <script src="js/select.min.js"></script>
 <!-- Bootstrap with directives for AngularJS, no need to use bootstrap.js or jQuery -->
     <script src="js/ui-bootstrap-tpls-0.13.4.js"></script>
 <!-- Application files -->

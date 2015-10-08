@@ -1,6 +1,16 @@
 // Controller, that performs CRUD operations
 app.controller('crudCtrl', function ($scope, $http, $modal) {
-
+  //////////////// Select 2 Draft ////////////////
+  $scope.person = {};
+  $scope.persons = [
+    { name: 'John Doe', email: 'john@doe.com'},
+    { name: 'Lola Bunny', email: 'lola@bunny.com'},
+    { name: 'James Joe', email: 'james@joe.com'},
+    { name: 'Olga Shmidth', email: 'olga@shmidth.com'},
+  ];
+  
+  
+  
   // Set selected row in table
   $scope.selectRow = function (id) {
     $scope.selectedId = id;
