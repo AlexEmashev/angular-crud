@@ -4,6 +4,8 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   // UI Select control
   $scope.selectedCity = {};
   $scope.cities = [];
+  
+  // Acquire city names
   $scope.getCityNames = function(cityName){
     if(!cityName){
       return;
@@ -14,8 +16,22 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
       'http://maps.googleapis.com/maps/api/geocode/json',
       {params: params}
     ).then(function (response) {
-      console.log(response);
-      $scope.cities = response.data.results;
+      var cities = [];
+      response.data.results.forEach(function (element, index, array) {
+        if(element.address_components[0]){
+          var cityInfo = element.address_components[0];
+          
+          if(cityInfo.types && (cityInfo.types[0] == "locality")){
+            // Filter out duplicates
+            if(cities.indexOf(cityInfo.long_name) == -1){
+              cities.push(cityInfo.long_name);
+            }
+          }
+        }
+      });
+      
+      console.log(cities);
+      $scope.cities = cities;
     });
   }
   
@@ -40,7 +56,6 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   // Read list of users from remote service
   $http.get("http://jsonplaceholder.typicode.com/users")
     .success(function (resoponse) {
-      console.log(resoponse);
       $scope.users = resoponse;
     })
     .error(function (response) {
