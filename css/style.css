@@ -1,5 +1,6 @@
 h1{
   text-align: center;
+  color: #86a1a3;
 }
 
 article{
@@ -13,7 +14,7 @@ article{
 }
 
 .selected-row{
-  background-color: #e9f3f5;
+  background-color: #e0e8e7;
 }
 
 /* Display error bolock if there are any errors */

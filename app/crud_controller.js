@@ -1,6 +1,40 @@
 // Controller, that performs CRUD operations
 app.controller('crudCtrl', function ($scope, $http, $modal) {
-
+  
+  // UI Select control
+  $scope.selectedCity = {};
+  $scope.cities = [];
+  
+  // Acquire city names
+  $scope.getCityNames = function(cityName){
+    if(!cityName){
+      return;
+    }
+      
+    var params = {address: cityName, sensor: false};
+    return $http.get(
+      'http://maps.googleapis.com/maps/api/geocode/json',
+      {params: params}
+    ).then(function (response) {
+      var cities = [];
+      response.data.results.forEach(function (element, index, array) {
+        if(element.address_components[0]){
+          var cityInfo = element.address_components[0];
+          
+          if(cityInfo.types && (cityInfo.types[0] == "locality")){
+            // Filter out duplicates
+            if(cities.indexOf(cityInfo.long_name) == -1){
+              cities.push(cityInfo.long_name);
+            }
+          }
+        }
+      });
+      
+      console.log(cities);
+      $scope.cities = cities;
+    });
+  }
+  
   // Set selected row in table
   $scope.selectRow = function (id) {
     $scope.selectedId = id;
@@ -37,7 +71,8 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
     $scope.user = {
       id: undefined,
       name: "",
-      email: ""
+      email: "",
+      address: {city: ""}
     };
     $scope.userDataAcquired = true;
   };
