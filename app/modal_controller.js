@@ -39,26 +39,24 @@ app.controller('modalCtrl', function ($scope, $modal) {
 // Controller of modal instance.
 // Links data and manages dialog actions like close window.
 // $modalInstance - scope of current window with additional methods.
-app.controller('modalInstanceCtrl', function ($scope, $modalInstance) {
+app.controller('modalInstanceCtrl', function ($scope, $modalInstance, validationService) {
   // Close modal window
   $scope.modalClose = function () {
     $modalInstance.close();
     $scope.user = {};
   };
 
+  // Submit record
   $scope.modalSubmit = function () {
-    // 'show-errors-check-validity' - from plugin bootstrap.showErrors
-    $scope.$broadcast('show-errors-check-validity');
-    
-    if($scope.recordEdit.$valid && $scope.recordEdit.$dirty) {
-      if($scope.modalCreateMode){
-        $scope.update();
-      } else {
-        $scope.create();
+      if(new validationService().checkFormValidity($scope)){
+        if($scope.modalCreateMode){
+          $scope.update();
+        } else {
+          $scope.create();
+        }
+
+          $scope.user = {};
+          $modalInstance.close();
       }
-      
-      $scope.user = {};
-      $modalInstance.close();
-    }
   }
 });
