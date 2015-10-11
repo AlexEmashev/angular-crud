@@ -30,7 +30,6 @@ app.controller('modalCtrl', function ($scope, $modal) {
     // Actions after modal dismissed
     modalInstance.result.then(function (selectedItem) {
       //console.log("Modal dismissed at: " + new Date());
-      console.log($scope.user);
     });
   }
 });
@@ -50,9 +49,9 @@ app.controller('modalInstanceCtrl', function ($scope, $modalInstance, validation
   $scope.modalSubmit = function () {
       if(new validationService().checkFormValidity($scope)){
         if($scope.modalCreateMode){
-          $scope.update();
-        } else {
           $scope.create();
+        } else {
+          $scope.update();
         }
 
           $scope.user = {};

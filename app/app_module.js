@@ -17,4 +17,5 @@ app.config(function($translateProvider){
   
   // Define translation map to use on startup
   $translateProvider.preferredLanguage('en');
+  $translateProvider.useSanitizeValueStrategy('sanitize');
 })

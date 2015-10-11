@@ -9,6 +9,11 @@ article{
   max-width: 60em;
 }
 
+.table-header{
+  margin-left: 1em;
+  font-size: large;
+}
+
 .selectable-row{
   cursor: pointer;
 }

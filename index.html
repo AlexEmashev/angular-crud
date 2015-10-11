@@ -23,12 +23,12 @@
    </header>
     <article>
 <!-- Error message -->
-      <div class="alert alert-danger alert-dismissible" role="alert" ng-show="error">
+      <div class="alert alert-danger alert-dismissible" role="alert" ng-show="error.message">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"
          ng-click="dismissError()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <strong>Errorr!</strong> {{error.message}}
+        <strong>Error!</strong> {{error.message}}
       </div>
       
 <!-- Place tabel into a panel-->
@@ -41,7 +41,7 @@
             <button type="button" class="btn btn-default" 
             ng-click="selectedId ? destroy() : null" ng-disabled="!selectedId">Delete</button>
           </div>
-          Table <strong>Users</strong>
+          <span class="table-header">List of Persons</span>
         </div>
         <div class="panel-body">
 <!--  Users Table -->

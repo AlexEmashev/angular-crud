@@ -6,6 +6,12 @@
 <form novalidate role="form" name="recordEdit">
  <fieldset ng-disabled="!userDataAcquired">
   <div class="modal-body">
+
+<!-- Error message -->
+  <div class="alert alert-danger" role="alert" ng-show="error.message">
+    <strong>Error!</strong> {{error.message}}
+  </div>
+  
 <!-- Show-errors required to make group show errors -->
     <div class="form-group">
       <label>Name:</label>

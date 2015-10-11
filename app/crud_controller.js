@@ -1,9 +1,12 @@
 // Controller, that performs CRUD operations
 app.controller('crudCtrl', function ($scope, $http, $modal) {
   
+  ///////////////////////////////// Auxiliary code ////////////////////////////
   // UI Select control
   $scope.selectedCity = {};
   $scope.cities = [];
+  // Error obj setup
+  $scope.error = {status: "", message: ""};
   
   // Acquire city names
   $scope.getCityNames = function(cityName){
@@ -30,7 +33,6 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
         }
       });
       
-      console.log(cities);
       $scope.cities = cities;
     });
   }
@@ -53,18 +55,17 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
     return ++newId;
   }
   
+  ///////////////////////////////// CRUD methods ////////////////////////////
+  
   // Read list of users from remote service
-  $http.get("http://1jsonplaceholder.typicode.com/users")
-    .success(function (resoponse) {
-      $scope.users = resoponse;
-    })
-    .error(function (response) {
-      $scope.error = response;
-      console.log("Request error: %s", response);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
+  $http.get("http://jsonplaceholder.typicode.com/users")
+  .then(function successCallback (response) {
+    $scope.users = response.data;
+  }, function errorCallback (response) {
+    $scope.error.status = response.status;
+    $scope.error.message = response.statusText;
+  });
+
   
   // Method for creating a new user
   $scope.new = function () {
@@ -84,79 +85,86 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   // Method create new record
   $scope.create = function () {
     $http.post("http://jsonplaceholder.typicode.com/users", $scope.user)
-      .success(function (response) {
-        // The service don't actually return new record, it just echoing what has been sent.
-        // So record need a new ID.
-        response.id = $scope.getNewUserId();
-        $scope.users.push(response);
-      })
-      .error(function (response) {
-        console.log("error " + response);
-      });
+    .then(function successCallback(response) {
+      // The service don't actually return new record, it just echoing what has been sent.
+      // So record need a new ID.
+      var user = response.data;
+      user.id = $scope.getNewUserId();
+      $scope.users.push(user);
+    }, function errorCallback (response) {
+      console.log("Error while creating", response);
+      $scope.error.status = response.status;
+      $scope.error.message = response.statusText;
+  });
   };
   
   // Return specific record to display or edit
   $scope.show = function () {
     if ($scope.selectedId) {
       $scope.userDataAcquired = false;
-      $http.get("http://jsonplaceholder.typicode.com/users/" + $scope.selectedId)
-        .success(function (response) {
-          // Hack: Update actually doesn't update data on the server. 
-          // If user tries to edit row that he edit perviously he get an original values
-          // That's why response doesn't used here.
-          $scope.users.forEach(function (element, index, array){
-            if (element.id == $scope.selectedId){
-                $scope.user = element;
-                $scope.userDataAcquired = true;
-              }
-          });
-        })
-        .error(function (response) {
-          console.log("error " + response);
+      
+      // Hack: the fake RESTful service doesn't support updating data.
+      // So if app want to show record with ID that doesn't exist on server it returns 404.
+      // The app has all data it needs to allow user to edit it. So here is just a fake request.
+      $http.get("http://jsonplaceholder.typicode.com/users/" + 1)
+      .then(function successCallback(response) {
+        // Find selected row
+        $scope.users.forEach(function (element, index, array){
+          if (element.id == $scope.selectedId){
+              $scope.user = element;
+              $scope.userDataAcquired = true;
+            }
         });
+
+      }, function errorCallback (response) {
+        console.log("Error in show", response);
+        $scope.error.status = response.status;
+        $scope.error.message = response.statusText;
+      });
     }
   }
 
   // Method for editing a user
   $scope.update = function () {
-    $http.put("http://jsonplaceholder.typicode.com/users/" + $scope.user.id)
-    .success(function (response) {
-      // Our fake RESTful service doesn't return updated string, but original
-      // So we just simulate successful update. 
+    // Hack: fake RESTful service doesn't support update, here is just a fake request.
+    $http.put("http://jsonplaceholder.typicode.com/users/" + 1)
+    .then(function successCallback(response) {
+      // Update row manualy.
       $scope.users.forEach(function (element, index, array){
         if (element.id == $scope.user.id){
           array[index] = $scope.user;
         }
       });
-    })
-    .error(function (response) {
-      console.log("error " + response);
+    }, function errorCallback (response) {
+      console.log("Error in update", response);
+      $scope.error.status = response.status;
+      $scope.error.message = response.statusText;
     });
-
   };
   
   // Method for destroying a user record
   $scope.destroy = function () {
     if ($scope.selectedId){
         $http.delete("http://jsonplaceholder.typicode.com/users/" + $scope.selectedId)
-        .success(function (response) {
-          // Remove deleted item from array
-          for (var i = 0; i < $scope.users.length; i++){    
-            if ($scope.users[i].id == $scope.selectedId){
-              $scope.users.splice(i, 1);
-              break;
+        .then(function successCallback(response) {
+            // Remove deleted item from array
+            for (var i = 0; i < $scope.users.length; i++){    
+              if ($scope.users[i].id == $scope.selectedId){
+                $scope.users.splice(i, 1);
+                break;
+              }
             }
-          }
-          $scope.selectedId = undefined;
-        })
-        .error(function (response) {
-          console.log("error " + response);
-        });
+            $scope.selectedId = undefined;
+          }, function errorCallback (response) {
+            console.log("Error in destroy", response);
+            $scope.error.status = response.status;
+            $scope.error.message = response.statusText;
+          });
       }
   }
   
   // Dismiss shown error
   $scope.dismissError = function() {
-    $scope.error = {};
+    $scope.error = {status: "", message: ""};
   }
 });
