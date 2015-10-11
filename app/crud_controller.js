@@ -54,12 +54,16 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
   }
   
   // Read list of users from remote service
-  $http.get("http://jsonplaceholder.typicode.com/users")
+  $http.get("http://1jsonplaceholder.typicode.com/users")
     .success(function (resoponse) {
       $scope.users = resoponse;
     })
     .error(function (response) {
+      $scope.error = response;
       console.log("Request error: %s", response);
+    })
+    .catch(function (err) {
+      console.log(err);
     });
   
   // Method for creating a new user
@@ -149,5 +153,10 @@ app.controller('crudCtrl', function ($scope, $http, $modal) {
           console.log("error " + response);
         });
       }
+  }
+  
+  // Dismiss shown error
+  $scope.dismissError = function() {
+    $scope.error = {};
   }
 });
