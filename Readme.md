@@ -20,7 +20,7 @@ App can perform create, read, update and delete operations with data via Ajax. *
 
 ### Form validation
 
-Editing form supports data validation and doesn't user allow to submit incorrect data.
+Editing form supports data validation and doesn't allow user to submit incorrect data.
 
 ![form validation](docs/images/validation.png)
 
