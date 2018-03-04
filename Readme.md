@@ -1,10 +1,10 @@
-#Simple AngularJS CRUD app
+# Simple AngularJS CRUD app
 
-##About
+## About
 
 This project is a simple web-application for managing data on a remote service with RESTful API.
 
-##Features
+## Features
 
 ### Remote data display
 
@@ -24,7 +24,7 @@ Editing form supports data validation and doesn't allow user to submit incorrect
 
 ![form validation](docs/images/validation.png)
 
-##Libraries used
+## Libraries used
 
 - [AngularJS v1.4.7](https://angularjs.org/)
 - [UI Bootstrap](https://angular-ui.github.io/bootstrap/)
@@ -33,7 +33,7 @@ Editing form supports data validation and doesn't allow user to submit incorrect
 
 Demo data for the app acuried from [jsonplaceholder.typicode.com](http://jsonplaceholder.typicode.com/)
 
-##ToDo
+## ToDo
 
 Some things to improve:
 
@@ -44,4 +44,3 @@ Some things to improve:
 - [x] Add form validation
 - [x] Split controllers to separate files
 - [ ] Make a provider for service REST URLs
-
